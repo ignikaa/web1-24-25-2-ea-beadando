@@ -1,0 +1,208 @@
+/* Alap stílusok */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Fejléc és lábléc */
+header, footer {
+    padding: 0.5em;
+    color: white;
+    background-color: gray;
+    clear: both;
+}
+
+h1.header {
+    padding: 0;
+    margin: 0;
+}
+
+/* Navigációs menü */
+nav {
+    background-color: #f0f0f0;
+}
+
+ul {
+    float: left;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+li {
+    display: inline;
+}
+
+a {
+    float: left;
+    width: 6em;
+    text-decoration: none;
+    color: white;
+    background-color: rgb(53, 128, 0);
+    padding: 0.2em 0.6em;
+    border-right: 1px solid white;
+}
+
+a.active {
+    border-bottom: 5px solid blue;
+}
+
+a:hover {
+    background-color: #ff3300;
+}
+
+/* Fő tartalom */
+main {
+    display: flex;
+    flex: 1;
+}
+
+aside {
+    float: left;
+    width: 160px;
+    margin: 0;
+    padding: 1em;
+    background-color: #f0f0f0;
+}
+
+#content {
+    margin-left: 190px;
+    border-left: 1px solid gray;
+    padding: 1em;
+    flex: 1;
+}
+/* Táblázat stílusok */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+th:hover {
+    background-color: #e0e0e0;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Űrlap stílusok */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: inline-block;
+    width: 80px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-left: 85px;
+    display: none;
+}
+
+.form-action {
+    margin-top: 15px;
+}
+
+.form-action button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    background-color: rgb(53, 128, 0);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-action button:hover {
+    background-color: #ff3300;
+}
+
+/* Keresés mező */
+.search-container {
+    margin-bottom: 15px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Gomb stílusok */
+.edit-btn, .delete-btn {
+    padding: 5px 10px;
+    margin-right: 5px;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #4CAF50;
+}
+
+.delete-btn {
+    background-color: #f44336;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    opacity: 0.8;
+}
+
+/* Rendezési ikonok */
+th[data-sort] {
+    cursor: pointer;
+    position: relative;
+}
+
+th[data-sort]:after {
+    content: '⇵';
+    position: absolute;
+    right: 8px;
+    color: #999;
+}
+
+th[data-sort].sort-asc:after {
+    content: '↑';
+    color: #333;
+}
+
+th[data-sort].sort-desc:after {
+    content: '↓';
+    color: #333;
+}
+

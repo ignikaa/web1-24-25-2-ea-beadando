@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8">
+    <title>Táblázat - Web-programozás-1 Előadás Házi feladat</title>
+    <link type="text/css" rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1 class="header">Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Főoldal</a></li>
+            <li><a href="tablazat.html" class="active">Táblázat</a></li>
+            <li><a href="html5.html">HTML5</a></li>
+            <li><a href="chartjs.html">ChartJS</a></li>
+            <li><a href="ajax.html">AJAX</a></li>
+            <li><a href="oojs.html">OOJS</a></li>
+        </ul>
+    </nav>
+    <main>
+        <aside>
+            <h2>Táblázat</h2>
+        </aside>
+        <div id="content">
+            <h2>CRUD Táblázat</h2>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Keresés a táblázatban...">
+            </div>
+            
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th data-sort="id">ID</th>
+                        <th data-sort="nev">Név</th>
+                        <th data-sort="email">Email</th>
+                        <th data-sort="telefon">Telefon</th>
+                        <th data-sort="varos">Város</th>
+                        <th>Műveletek</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Táblázat sorai dinamikusan generálva -->
+                </tbody>
+            </table>
+            
+            <h3>Adatok kezelése</h3>
+            <form id="crudForm">
+                <div class="form-group">
+                    <label for="nev">Név:</label>
+                    <input type="text" id="nev" required minlength="3" maxlength="30">
+                    <span class="error-message" id="nevError">A név mező kitöltése kötelező, minimum 3, maximum 30 karakter!</span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required minlength="5" maxlength="30">
+                    <span class="error-message" id="emailError">Az email mező kitöltése kötelező, minimum 5, maximum 30 karakter!</span>
+                </div>
+                <div class="form-group">
+                    <label for="telefon">Telefon:</label>
+                    <input type="text" id="telefon" required minlength="7" maxlength="15">
+                    <span class="error-message" id="telefonError">A telefon mező kitöltése kötelező, minimum 7, maximum 15 karakter!</span>
+                </div>
+                <div class="form-group">
+                    <label for="varos">Város:</label>
+                    <input type="text" id="varos" required minlength="2" maxlength="30">
+                    <span class="error-message" id="varosError">A város mező kitöltése kötelező, minimum 2, maximum 30 karakter!</span>
+                </div>
+                <div class="form-action">
+                    <button type="submit" id="submitBtn">Mentés</button>
+                    <button type="button" id="resetBtn">Új</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>Készítette: Zolnai Dániel és Kátai Balázs (Neptun kód: AWGMLS, YXZRGL)</p>
+    </footer>
+    <script src="tablazat.js"></script>
+</body>
+</html>
