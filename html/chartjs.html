@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8">
+    <title>ChartJS - Web-programozás-1 Előadás Házi feladat</title>
+    <link type="text/css" rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        tr.selected {
+            background-color: #e0e0e0;
+        }
+        .chart-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="header">Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Főoldal</a></li>
+            <li><a href="tablazat.html">Táblázat</a></li>
+            <li><a href="html5.html">HTML5</a></li>
+            <li><a href="chartjs.html" class="active">ChartJS</a></li>
+            <li><a href="ajax.html">AJAX</a></li>
+            <li><a href="oojs.html">OOJS</a></li>
+        </ul>
+    </nav>
+    <main>
+        <aside>
+            <h2>ChartJS</h2>
+        </aside>
+        <div id="content">
+            <h2>ChartJS Példa</h2>
+            <p>Kattintson egy sorra a táblázatban a diagram megjelenítéséhez:</p>
+            
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Oszlop 1</th>
+                        <th>Oszlop 2</th>
+                        <th>Oszlop 3</th>
+                        <th>Oszlop 4</th>
+                        <th>Oszlop 5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10</td>
+                        <td>20</td>
+                        <td>30</td>
+                        <td>20</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td>25</td>
+                        <td>35</td>
+                        <td>45</td>
+                        <td>55</td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td>10</td>
+                        <td>5</td>
+                        <td>10</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>8</td>
+                        <td>16</td>
+                        <td>32</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>4</td>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>Zolnai Dániel és Kátai Balázs (Neptun kód: AWGMLS, YXZRGL)</p>
+    </footer>
+    
+    <script>
+        // Diagram inicializálása
+        const ctx = document.getElementById('myChart').getContext('2d');
+        let myChart;
+
+        // Diagram frissítése a kiválasztott sor adataival
+        function updateChart(data, rowIndex) {
+            // Ha már létezik diagram, akkor töröljük
+            if (myChart) {
+                myChart.destroy();
+            }
+            
+            // Új diagram létrehozása
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Oszlop 1', 'Oszlop 2', 'Oszlop 3', 'Oszlop 4', 'Oszlop 5'],
+                    datasets: [{
+                        label: `${rowIndex + 1}. sor adatai`,
+                        data: data,
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        tension: 0.1,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Táblázat sor adatai'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Táblázat soraira kattintás eseménykezelő
+        document.querySelectorAll('#dataTable tbody tr').forEach((row, index) => {
+            row.addEventListener('click', function() {
+                // Kijelölés eltávolítása az összes sorról
+                document.querySelectorAll('#dataTable tbody tr').forEach(r => {
+                    r.classList.remove('selected');
+                });
+                
+                // Kijelölés hozzáadása a kattintott sorhoz
+                this.classList.add('selected');
+                
+                // Adatok kinyerése a sorból
+                const data = Array.from(this.querySelectorAll('td')).map(cell => parseInt(cell.textContent));
+                
+                // Diagram frissítése
+                updateChart(data, index);
+            });
+        });
+
+        // Kezdeti diagram az első sorral
+        const firstRowData = Array.from(document.querySelector('#dataTable tbody tr').querySelectorAll('td')).map(cell => parseInt(cell.textContent));
+        document.querySelector('#dataTable tbody tr').classList.add('selected');
+        updateChart(firstRowData, 0);
+    </script>
+</body>
+</html>
