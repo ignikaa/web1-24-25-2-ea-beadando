@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8">
+    <title>HTML5 - Web-programozás-1 Előadás Házi feladat</title>
+    <link type="text/css" rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1 class="header">Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Főoldal</a></li>
+            <li><a href="tablazat.html">Táblázat</a></li>
+            <li><a href="html5.html" class="active">HTML5</a></li>
+            <li><a href="chartjs.html">ChartJS</a></li>
+            <li><a href="ajax.html">AJAX</a></li>
+            <li><a href="oojs.html">OOJS</a></li>
+        </ul>
+    </nav>
+    <main>
+        <aside>
+            <h2>HTML5</h2>
+        </aside>
+        <div id="content">
+            <h2>HTML5 Példák</h2>
+            
+            <section id="web-storage">
+                <h3>Web Storage</h3>
+                <p>A Web Storage lehetővé teszi adatok tárolását a böngészőben.</p>
+                <div>
+                    <input type="text" id="storageInput" placeholder="Írj be valamit">
+                    <button onclick="saveToLocalStorage()">Mentés Local Storage-ba</button>
+                    <button onclick="saveToSessionStorage()">Mentés Session Storage-ba</button>
+                    <button onclick="loadFromStorage()">Betöltés</button>
+                    <button onclick="clearStorage()">Törlés</button>
+                    <p id="storageOutput"></p>
+                </div>
+            </section>
+            
+            <section id="web-workers">
+                <h3>Web Workers</h3>
+                <p>A Web Workers lehetővé teszi JavaScript kód futtatását a háttérben, külön szálon.</p>
+                <div>
+                    <button onclick="startWorker()">Számolás indítása</button>
+                    <button onclick="stopWorker()">Számolás leállítása</button>
+                    <p id="workerOutput">Eredmény: </p>
+                </div>
+            </section>
+            
+            <section id="geolocation">
+                <h3>Geolocation API</h3>
+                <p>A Geolocation API lehetővé teszi a felhasználó földrajzi helyzetének lekérdezését.</p>
+                <div>
+                    <button onclick="getLocation()">Helyzet lekérdezése</button>
+                    <p id="geoOutput"></p>
+                </div>
+            </section>
+            
+            <section id="drag-drop">
+                <h3>Drag and Drop API</h3>
+                <p>A Drag and Drop API lehetővé teszi elemek húzását és ejtését.</p>
+                <div class="drag-drop-container">
+                    <div id="drag-source" draggable="true" ondragstart="dragStart(event)">
+                        Húzz ide
+                    </div>
+                    <div id="drop-target" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        Dobd ide
+                    </div>
+                </div>
+            </section>
+            
+            <section id="canvas">
+                <h3>Canvas</h3>
+                <p>A Canvas lehetővé teszi grafika rajzolását JavaScript segítségével.</p>
+                <canvas id="myCanvas" width="300" height="150" style="border:1px solid #000000;"></canvas>
+                <br>
+                <button onclick="drawOnCanvas()">Rajzolás</button>
+            </section>
+            
+            <section id="svg">
+                <h3>SVG</h3>
+                <p>Az SVG (Scalable Vector Graphics) vektorgrafikus formátum.</p>
+                <svg width="300" height="150">
+                    <rect width="150" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+                    <circle cx="220" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
+                </svg>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <p>Készítette: [Az Ön neve] (Neptun kód: [Az Ön Neptun kódja])</p>
+    </footer>
+    
+    <script>
+        // Web Storage
+        function saveToLocalStorage() {
+            const input = document.getElementById('storageInput').value;
+            if (input) {
+                localStorage.setItem('savedData', input);
+                document.getElementById('storageOutput').innerHTML = 'Adat elmentve a Local Storage-ba!';
+            }
+        }
+        
+        function saveToSessionStorage() {
+            const input = document.getElementById('storageInput').value;
+            if (input) {
+                sessionStorage.setItem('savedData', input);
+                document.getElementById('storageOutput').innerHTML = 'Adat elmentve a Session Storage-ba!';
+            }
+        }
+        
+        function loadFromStorage() {
+            const localData = localStorage.getItem('savedData');
+            const sessionData = sessionStorage.getItem('savedData');
+            let output = '';
+            
+            if (localData) {
+                output += 'Local Storage: ' + localData + '<br>';
+            }
+            
+            if (sessionData) {
+                output += 'Session Storage: ' + sessionData;
+            }
+            
+            if (!localData && !sessionData) {
+                output = 'Nincs mentett adat!';
+            }
+            
+            document.getElementById('storageOutput').innerHTML = output;
+        }
+        
+        function clearStorage() {
+            localStorage.removeItem('savedData');
+            sessionStorage.removeItem('savedData');
+            document.getElementById('storageOutput').innerHTML = 'Adatok törölve!';
+        }
+        
+        // Web Workers
+        let worker;
+        
+        function startWorker() {
+            if (typeof(Worker) !== "undefined") {
+                if (typeof(worker) == "undefined") {
+                    worker = new Worker("worker.js");
+                }
+                worker.onmessage = function(event) {
+                    document.getElementById("workerOutput").innerHTML = "Eredmény: " + event.data;
+                };
+            } else {
+                document.getElementById("workerOutput").innerHTML = "A böngésző nem támogatja a Web Workers-t!";
+            }
+        }
+        
+        function stopWorker() { 
+            if (worker) {
+                worker.terminate();
+                worker = undefined;
+                document.getElementById("workerOutput").innerHTML = "Számolás leállítva!";
+            }
+        }
+        
+        // Geolocation API
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById("geoOutput").innerHTML = "A böngésző nem támogatja a Geolocation API-t!";
+            }
+        }
+        
+        function showPosition(position) {
+            document.getElementById("geoOutput").innerHTML = 
+                "Szélesség: " + position.coords.latitude + 
+                "<br>Hosszúság: " + position.coords.longitude;
+        }
+        
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("geoOutput").innerHTML = "A felhasználó megtagadta a helymeghatározás engedélyezését.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("geoOutput").innerHTML = "A helyadatok nem elérhetők.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("geoOutput").innerHTML = "A helymeghatározási kérés időtúllépés miatt megszakadt.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById("geoOutput").innerHTML = "Ismeretlen hiba történt.";
+                    break;
+            }
+        }
+        
+        // Drag and Drop API
+        function dragStart(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        }
+        
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+        
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text");
+            event.target.appendChild(document.getElementById(data));
+        }
+        
+        // Canvas
+        function drawOnCanvas() {
+            const canvas = document.getElementById("myCanvas");
+            const ctx = canvas.getContext("2d");
+            
+            // Törlés
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Téglalap
+            ctx.fillStyle = "#FF0000";
+            ctx.fillRect(20, 20, 75, 50);
+            
+            // Kör
+            ctx.beginPath();
+            ctx.arc(150, 50, 40, 0, 2 * Math.PI);
+            ctx.fillStyle = "green";
+            ctx.fill();
+            ctx.stroke();
+            
+            // Vonal
+            ctx.beginPath();
+            ctx.moveTo(20, 100);
+            ctx.lineTo(280, 100);
+            ctx.stroke();
+            
+            // Szöveg
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "blue";
+            ctx.fillText("Canvas példa", 100, 130);
+        }
+        
+        // Oldal betöltésekor rajzoljuk meg a canvas-t
+        window.onload = function() {
+            drawOnCanvas();
+        };
+    </script>
+</body>
+</html>

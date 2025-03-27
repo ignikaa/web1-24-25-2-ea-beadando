@@ -206,3 +206,62 @@ th[data-sort].sort-desc:after {
     color: #333;
 }
 
+/* HTML5 példák stílusai */
+section {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+section h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.drag-drop-container {
+    display: flex;
+    gap: 20px;
+}
+
+#drag-source, #drop-target {
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #aaa;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#drag-source {
+    background-color: #ffcccc;
+    cursor: move;
+}
+
+#drop-target {
+    background-color: #ccffcc;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 5px;
+    background-color: rgb(53, 128, 0);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff3300;
+}
+
+input[type="text"] {
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
