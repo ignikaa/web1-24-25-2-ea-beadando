@@ -43,30 +43,53 @@
                 <h3>Web Workers</h3>
                 <p>A Web Workers lehetővé teszi JavaScript kód futtatását a háttérben, külön szálon.</p>
                 <div>
-                    <button onclick="startWorker()">Számolás indítása</button>
-                    <button onclick="stopWorker()">Számolás leállítása</button>
-                    <p id="workerOutput">Eredmény: </p>
+                    <button onclick="bigLoop();">Hosszú ciklus</button>
+                    <button onclick="sayHello();">Csak egy üdvözlés</button>
+                    <div id="workerResult"></div>
                 </div>
             </section>
             
+            <section id="server-sent-events">
+                <h3>Server-Sent Events</h3>
+                <p>A Server-Sent Events lehetővé teszi, hogy a szerver automatikusan küldjön adatokat a kliensnek.</p>
+                <div>
+                    <h1>Getting server updates</h1>
+                    <div id="result"></div>
+            
+                    <script>
+                    if(typeof(EventSource) !== "undefined") {
+                        var source = new EventSource("demo_sse.php");
+                        source.onmessage = function(event) {
+                            document.getElementById("result").innerHTML += event.data + "<br>";
+                        };
+                    } else {
+                        document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
+                    }
+                    </script>
+                </div>
+            </section>
+            
+
             <section id="geolocation">
                 <h3>Geolocation API</h3>
                 <p>A Geolocation API lehetővé teszi a felhasználó földrajzi helyzetének lekérdezését.</p>
                 <div>
                     <button onclick="getLocation()">Helyzet lekérdezése</button>
                     <p id="geoOutput"></p>
+                    <div id="content-holder"></div>
                 </div>
             </section>
+            
             
             <section id="drag-drop">
                 <h3>Drag and Drop API</h3>
                 <p>A Drag and Drop API lehetővé teszi elemek húzását és ejtését.</p>
                 <div class="drag-drop-container">
                     <div id="drag-source" draggable="true" ondragstart="dragStart(event)">
-                        Húzz ide
+                        Húzz a zöldre
                     </div>
                     <div id="drop-target" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        Dobd ide
+                        
                     </div>
                 </div>
             </section>
@@ -90,7 +113,7 @@
         </div>
     </main>
     <footer>
-        <p>Készítette: [Az Ön neve] (Neptun kód: [Az Ön Neptun kódja])</p>
+        <p>Készítette: Zolnai Dániel és Kátai Balázs (Neptun kód: AWGMLS, YXZRGL)</p>
     </footer>
     
     <script>
@@ -138,61 +161,60 @@
         }
         
         // Web Workers
-        let worker;
-        
-        function startWorker() {
+        function bigLoop() {
             if (typeof(Worker) !== "undefined") {
-                if (typeof(worker) == "undefined") {
-                    worker = new Worker("worker.js");
-                }
-                worker.onmessage = function(event) {
-                    document.getElementById("workerOutput").innerHTML = "Eredmény: " + event.data;
+                var worker = new Worker('worker.js');
+                worker.onmessage = function (event) {
+                    document.getElementById("workerResult").innerHTML = "Lefutott " + event.data + " ismétlés";
                 };
             } else {
-                document.getElementById("workerOutput").innerHTML = "A böngésző nem támogatja a Web Workers-t!";
+                document.getElementById("workerResult").innerHTML = "Sorry, your browser does not support Web Workers...";
             }
         }
-        
-        function stopWorker() { 
-            if (worker) {
-                worker.terminate();
-                worker = undefined;
-                document.getElementById("workerOutput").innerHTML = "Számolás leállítva!";
-            }
+
+        function sayHello() {
+            alert("Hahó....");
         }
         
         // Geolocation API
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else {
-                document.getElementById("geoOutput").innerHTML = "A böngésző nem támogatja a Geolocation API-t!";
-            }
-        }
-        
-        function showPosition(position) {
-            document.getElementById("geoOutput").innerHTML = 
-                "Szélesség: " + position.coords.latitude + 
-                "<br>Hosszúság: " + position.coords.longitude;
-        }
-        
-        function showError(error) {
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    document.getElementById("geoOutput").innerHTML = "A felhasználó megtagadta a helymeghatározás engedélyezését.";
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    document.getElementById("geoOutput").innerHTML = "A helyadatok nem elérhetők.";
-                    break;
-                case error.TIMEOUT:
-                    document.getElementById("geoOutput").innerHTML = "A helymeghatározási kérés időtúllépés miatt megszakadt.";
-                    break;
-                case error.UNKNOWN_ERROR:
-                    document.getElementById("geoOutput").innerHTML = "Ismeretlen hiba történt.";
-                    break;
-            }
-        }
-        
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        document.getElementById("geoOutput").innerHTML = "A böngésző nem támogatja a Geolocation API-t!";
+    }
+}
+
+function showPosition(position) {
+    document.getElementById("geoOutput").innerHTML = 
+        "Szélesség: " + position.coords.latitude + 
+        "<br>Hosszúság: " + position.coords.longitude;
+    
+    var newContent = '<iframe src="https://maps.google.com/maps?q=' + 
+        position.coords.latitude + ',' + position.coords.longitude + 
+        '&hl=es;z=14&amp;output=embed" width="600" height="450"></iframe>';
+    
+    var contentHolder = document.getElementById('content-holder');
+    contentHolder.innerHTML = newContent;
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            document.getElementById("geoOutput").innerHTML = "A felhasználó megtagadta a helymeghatározás engedélyezését.";
+            break;
+        case error.POSITION_UNAVAILABLE:
+            document.getElementById("geoOutput").innerHTML = "A helyadatok nem elérhetők.";
+            break;
+        case error.TIMEOUT:
+            document.getElementById("geoOutput").innerHTML = "A helymeghatározási kérés időtúllépés miatt megszakadt.";
+            break;
+        case error.UNKNOWN_ERROR:
+            document.getElementById("geoOutput").innerHTML = "Ismeretlen hiba történt.";
+            break;
+    }
+}
+
         // Drag and Drop API
         function dragStart(event) {
             event.dataTransfer.setData("text", event.target.id);

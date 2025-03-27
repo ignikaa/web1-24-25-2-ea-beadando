@@ -64,14 +64,14 @@ main {
 
 aside {
     float: left;
-    width: 160px;
+    width: 100px;
     margin: 0;
     padding: 1em;
     background-color: #f0f0f0;
 }
 
 #content {
-    margin-left: 190px;
+    margin-left: 0px;
     border-left: 1px solid gray;
     padding: 1em;
     flex: 1;

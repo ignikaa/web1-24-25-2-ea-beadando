@@ -1,9 +1,3 @@
-let i = 0;
-
-function countNumbers() {
-    i = i + 1;
-    postMessage(i);
-    setTimeout("countNumbers()", 500);
-}
-
-countNumbers();
+for (var i = 0; i <= 1000000000; i += 1)
+    var j = i;
+postMessage(j);
