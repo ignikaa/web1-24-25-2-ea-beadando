@@ -20,8 +20,10 @@ function MemoryGame() {
   const [choiceTwo, setChoiceTwo] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [gameWon, setGameWon] = useState(false);
-  const [lives, setLives] = useState(5);
+  const [lives, setLives] = useState(20);
   const [gameOver, setGameOver] = useState(false);
+  const [level, setLevel] = useState(1);
+  const [maxLives, setMaxLives] = useState(20);
 
   // Kártyák keverése és játék indítása
   const shuffleCards = () => {
@@ -37,8 +39,16 @@ function MemoryGame() {
     setCards(shuffledCards);
     setTurns(0);
     setGameWon(false);
-    setLives(5);
+    setLives(maxLives);
     setGameOver(false);
+  };
+
+  // Következő szint indítása
+  const nextLevel = () => {
+    setLevel(prevLevel => prevLevel + 1);
+    // Minden szinten csökkentjük a maximális életek számát
+    setMaxLives(prevMaxLives => Math.max(3, prevMaxLives - 1));
+    shuffleCards();
   };
 
   // Kártya kiválasztása
@@ -107,27 +117,29 @@ function MemoryGame() {
       <h2>Memória Játék</h2>
       
       <div className="game-info">
-        <button onClick={shuffleCards}>Új Játék</button>
         <div className="stats">
+          <div className="level">Szint: {level}</div>
           <div className="turns">Lépések: {turns}</div>
           <div className="lives">Életek: {lives}</div>
         </div>
+        <button onClick={shuffleCards}>Újrakezdés</button>
       </div>
       
       {gameWon && (
         <div className="game-message game-won">
-          <h3>Gratulálunk! Nyertél!</h3>
+          <h3>Gratulálunk! Teljesítetted a {level}. szintet!</h3>
           <p>Összes lépés: {turns}</p>
           <p>Megmaradt életek: {lives}</p>
-          <button onClick={shuffleCards}>Új Játék</button>
+          <button onClick={nextLevel}>Következő szint</button>
+          <button onClick={shuffleCards}>Újrakezdés</button>
         </div>
       )}
       
       {gameOver && !gameWon && (
         <div className="game-message game-over">
           <h3>Játék vége!</h3>
-          <p>Elfogytak az életek.</p>
-          <button onClick={shuffleCards}>Új Játék</button>
+          <p>Elfogytak az életek a {level}. szinten.</p>
+          <button onClick={shuffleCards}>Újrakezdés</button>
         </div>
       )}
       
