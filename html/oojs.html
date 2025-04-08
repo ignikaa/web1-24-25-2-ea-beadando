@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OOJS - Web-programozás-1 Előadás Házi feladat</title>
+    <link type="text/css" rel="stylesheet" href="styles.css">
+    <style>
+        #gameContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px auto;
+            max-width: 100%;
+        }
+        
+        #gameArea {
+            width: 80%;
+            max-width: 800px;
+            height: 70vh;
+            max-height: 600px;
+            border: 2px solid black;
+            position: relative;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        
+        .player {
+            position: absolute;
+            border-radius: 50%;
+        }
+        
+        #controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        
+        #score {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        #startButton {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: rgb(53, 128, 0);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        #startButton:hover {
+            background-color: #ff3300;
+        }
+        
+        #instructions {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 800px;
+        }
+        
+        @media (max-width: 768px) {
+            #gameArea {
+                width: 95%;
+                height: 60vh;
+            }
+            
+            #instructions {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="header">Web-programozás-1 Előadás Házi feladat</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Főoldal</a></li>
+            <li><a href="tablazat.html">Táblázat</a></li>
+            <li><a href="html5.html">HTML5</a></li>
+            <li><a href="chartjs.html">ChartJS</a></li>
+            <li><a href="ajax.html">AJAX</a></li>
+            <li><a href="oojs.html" class="active">OOJS</a></li>
+        </ul>
+    </nav>
+    <main>
+        <aside>
+            <h2>OOJS</h2>
+        </aside>
+        <div id="content">
+            <h2>Objektum-orientált JavaScript Játék</h2>
+            
+            <div id="gameContainer">
+                <div id="gameArea"></div>
+                
+                <div id="controls">
+                    <div id="score">Pontszám: <span id="scoreValue">0</span></div>
+                    <button id="startButton">Játék indítása</button>
+                </div>
+                
+                <div id="instructions">
+                    <h3>Játék leírása</h3>
+                    <p>Irányítsd a kék játékost a bal és jobb nyilakkal. Kerüld el a piros ellenségeket! Minden ellenség, ami átjut a képernyő alján, egy pontot ér.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>Készítette: Zolnai Dániel és Kátai Balázs (Neptun kód: AWGMLS, YXZRGL)</p>
+    </footer>
+    <script src="oojs.js"></script>
+</body>
+</html>
