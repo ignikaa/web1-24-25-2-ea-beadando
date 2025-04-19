@@ -1,5 +1,5 @@
 // API URL
-const url = "http://gamf.nhely.hu/ajax2/";
+const url = "http://webprog1eabeadando.nhely.hu/elsofeladatresz/html/ajax.html";
 
 // Az oldal betöltésekor elrejtjük a CRUD művelet szekciókat
 window.onload = function() {
